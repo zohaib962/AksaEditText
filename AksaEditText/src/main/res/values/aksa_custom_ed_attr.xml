@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="AksaEditText">
+        <attr name="hint_lable_color" format="color" />
+        <attr name="hint_label_size" format="dimension" />
+        <attr name="hint_label_drawable_left" format="integer" />
+        <attr name="hint_label_font_faimly" format="string" />
+        <attr name="hint_label_txt" format="string" />
+        <attr name="hint_label_drawable_padding" format="dimension" />
+        <attr name="hint_label_style">
+            <flag name="normal" value="0" />
+            <flag name="bold" value="1" />
+            <flag name="italic" value="2" />
+        </attr>
+
+
+        <attr name="ed_hint_txt" format="string" />
+        <attr name="ed_enable" format="boolean" />
+        <attr name="ed_enable_profile" format="boolean" />
+        <attr name="ed_is_mandatory" format="boolean" />
+        <attr name="ed_mandatory_text_color" format="color" />
+        <attr name="ed_txt" format="string" />
+        <attr name="ed_color" format="color" />
+        <attr name="ed_drawable_padding" format="dimension" />
+        <attr name="ed_hint_color" format="color" />
+        <attr name="ed_text_size" format="dimension" />
+        <attr name="ed_drawable_start" format="integer" />
+        <attr name="ed_drawable_end" format="integer" />
+        <attr name="ed_font_family" format="string" />
+        <attr name="ed_txt_style">
+            <flag name="normal" value="0" />
+            <flag name="bold" value="1" />
+            <flag name="italic" value="2" />
+        </attr>
+        <attr name="ed_maxLenght" format="integer" min="0" />
+        <attr name="android:inputType" />
+        <attr name="android:imeOptions" />
+        <attr name="ed_digits" format="string" />
+        <!--        <attr name="ed_inputType">-->
+        <!--            <flag name="none" value="0x00000000" />-->
+        <!--            <flag name="text" value="0x00000001" />-->
+        <!--            <flag name="textCapCharacters" value="0x00001001" />-->
+        <!--            <flag name="textCapWords" value="0x00002001" />-->
+        <!--            <flag name="textCapSentences" value="0x00004001" />-->
+        <!--            <flag name="textAutoCorrect" value="0x00008001" />-->
+        <!--            <flag name="textAutoComplete" value="0x00010001" />-->
+        <!--            <flag name="textMultiLine" value="0x00020001" />-->
+        <!--            <flag name="textImeMultiLine" value="0x00040001" />-->
+        <!--            <flag name="textNoSuggestions" value="0x00080001" />-->
+        <!--            <flag name="textUri" value="0x00000011" />-->
+        <!--            <flag name="textEmailAddress" value="0x00000021" />-->
+        <!--            <flag name="textEmailSubject" value="0x00000031" />-->
+        <!--            <flag name="textShortMessage" value="0x00000041" />-->
+        <!--            <flag name="textLongMessage" value="0x00000051" />-->
+        <!--            <flag name="textPersonName" value="0x00000061" />-->
+        <!--            <flag name="textPostalAddress" value="0x00000071" />-->
+        <!--            <flag name="textPassword" value="0x00000081" />-->
+        <!--            <flag name="textVisiblePassword" value="0x00000091" />-->
+        <!--            <flag name="textWebEditText" value="0x000000a1" />-->
+        <!--            <flag name="textFilter" value="0x000000b1" />-->
+        <!--            <flag name="textPhonetic" value="0x000000c1" />-->
+        <!--            <flag name="textWebEmailAddress" value="0x000000d1" />-->
+        <!--            <flag name="textWebPassword" value="0x000000e1" />-->
+        <!--            <flag name="number" value="0x00000002" />-->
+        <!--            <flag name="numberSigned" value="0x00001002" />-->
+        <!--            <flag name="numberDecimal" value="0x00002002" />-->
+        <!--            <flag name="numberPassword" value="0x00000012" />-->
+        <!--            <flag name="phone" value="0x00000003" />-->
+        <!--            <flag name="datetime" value="0x00000004" />-->
+        <!--            <flag name="date" value="0x00000014" />-->
+        <!--            <flag name="time" value="0x00000024" />-->
+        <!--        </attr>-->
+        <!--        <attr name="ed_imeOptions">-->
+        <!--            &lt;!&ndash; There are no special semantics associated with this editor. &ndash;&gt;-->
+        <!--            <flag name="normal" value="0x00000000" />-->
+        <!--            &lt;!&ndash; There is no specific action associated with this editor, let the-->
+        <!--                 editor come up with its own if it can.-->
+        <!--                 Corresponds to-->
+        <!--                 {@link android.view.inputmethod.EditorInfo#IME_NULL}. &ndash;&gt;-->
+        <!--            <flag name="actionUnspecified" value="0x00000000" />-->
+        <!--            &lt;!&ndash; This editor has no action associated with it.-->
+        <!--                 Corresponds to-->
+        <!--                 {@link android.view.inputmethod.EditorInfo#IME_ACTION_NONE}. &ndash;&gt;-->
+        <!--            <flag name="actionNone" value="0x00000001" />-->
+        <!--            &lt;!&ndash; The action key performs a "go"-->
+        <!--                 operation to take the user to the target of the text they typed.-->
+        <!--                 Typically used, for example, when entering a URL.-->
+        <!--                 Corresponds to-->
+        <!--                 {@link android.view.inputmethod.EditorInfo#IME_ACTION_GO}. &ndash;&gt;-->
+        <!--            <flag name="actionGo" value="0x00000002" />-->
+        <!--            &lt;!&ndash; The action key performs a "search"-->
+        <!--                 operation, taking the user to the results of searching for the text-->
+        <!--                 the have typed (in whatever context is appropriate).-->
+        <!--                 Corresponds to-->
+        <!--                 {@link android.view.inputmethod.EditorInfo#IME_ACTION_SEARCH}. &ndash;&gt;-->
+        <!--            <flag name="actionSearch" value="0x00000003" />-->
+        <!--            &lt;!&ndash; The action key performs a "send"-->
+        <!--                 operation, delivering the text to its target.  This is typically used-->
+        <!--                 when composing a message.-->
+        <!--                 Corresponds to-->
+        <!--                 {@link android.view.inputmethod.EditorInfo#IME_ACTION_SEND}. &ndash;&gt;-->
+        <!--            <flag name="actionSend" value="0x00000004" />-->
+        <!--            &lt;!&ndash; The action key performs a "next"-->
+        <!--                 operation, taking the user to the next field that will accept text.-->
+        <!--                 Corresponds to-->
+        <!--                 {@link android.view.inputmethod.EditorInfo#IME_ACTION_NEXT}. &ndash;&gt;-->
+        <!--            <flag name="actionNext" value="0x00000005" />-->
+        <!--            &lt;!&ndash; The action key performs a "done"-->
+        <!--                 operation, closing the soft input method.-->
+        <!--                 Corresponds to-->
+        <!--                 {@link android.view.inputmethod.EditorInfo#IME_ACTION_DONE}. &ndash;&gt;-->
+        <!--            <flag name="actionDone" value="0x00000006" />-->
+        <!--            &lt;!&ndash; The action key performs a "previous"-->
+        <!--                 operation, taking the user to the previous field that will accept text.-->
+        <!--                 Corresponds to-->
+        <!--                 {@link android.view.inputmethod.EditorInfo#IME_ACTION_PREVIOUS}. &ndash;&gt;-->
+        <!--            <flag name="actionPrevious" value="0x00000007" />-->
+        <!--            &lt;!&ndash; Used to request that the IME should not update any personalized data such as typing-->
+        <!--                 history and personalized language model based on what the user typed on this text-->
+        <!--                 editing object. Typical use cases are:-->
+        <!--                 <ul>-->
+        <!--                     <li>When the application is in a special mode, where user's activities are expected-->
+        <!--                     to be not recorded in the application's history. Some web browsers and chat-->
+        <!--                     applications may have this kind of modes.</li>-->
+        <!--                     <li>When storing typing history does not make much sense.  Specifying this flag in-->
+        <!--                     typing games may help to avoid typing history from being filled up with words that-->
+        <!--                     the user is less likely to type in their daily life.  Another example is that when-->
+        <!--                     the application already knows that the expected input is not a valid word (e.g. a-->
+        <!--                     promotion code that is not a valid word in any natural language).</li>-->
+        <!--                 </ul>-->
+        <!--                 <p>Applications need to be aware that the flag is not a guarantee, and some IMEs may-->
+        <!--                 not respect it.</p> &ndash;&gt;-->
+        <!--            <flag name="flagNoPersonalizedLearning" value="0x1000000" />-->
+        <!--            &lt;!&ndash; Used to request that the IME never go-->
+        <!--                 into fullscreen mode.  Applications need to be aware that the flag is not-->
+        <!--                 a guarantee, and not all IMEs will respect it.-->
+        <!--                 <p>Corresponds to-->
+        <!--                 {@link android.view.inputmethod.EditorInfo#IME_FLAG_NO_FULLSCREEN}. &ndash;&gt;-->
+        <!--            <flag name="flagNoFullscreen" value="0x2000000" />-->
+        <!--            &lt;!&ndash; Like flagNavigateNext, but-->
+        <!--                 specifies there is something interesting that a backward navigation-->
+        <!--                 can focus on.  If the user selects the IME's facility to backward-->
+        <!--                 navigate, this will show up in the application as an actionPrevious-->
+        <!--                 at {@link android.view.inputmethod.InputConnection#performEditorAction(int)-->
+        <!--                 InputConnection.performEditorAction(int)}.-->
+        <!--                 <p>Corresponds to-->
+        <!--                 {@link android.view.inputmethod.EditorInfo#IME_FLAG_NAVIGATE_PREVIOUS}. &ndash;&gt;-->
+        <!--            <flag name="flagNavigatePrevious" value="0x4000000" />-->
+        <!--            &lt;!&ndash; Used to specify that there is something-->
+        <!--                 interesting that a forward navigation can focus on. This is like using-->
+        <!--                 actionNext, except allows the IME to be multiline (with-->
+        <!--                 an enter key) as well as provide forward navigation.  Note that some-->
+        <!--                 IMEs may not be able to do this, especially when running on a small-->
+        <!--                 screen where there is little space.  In that case it does not need to-->
+        <!--                 present a UI for this option.  Like actionNext, if the-->
+        <!--                 user selects the IME's facility to forward navigate, this will show up-->
+        <!--                 in the application at-->
+        <!--                 {@link android.view.inputmethod.InputConnection#performEditorAction(int)-->
+        <!--                 InputConnection.performEditorAction(int)}.-->
+        <!--                 <p>Corresponds to-->
+        <!--                 {@link android.view.inputmethod.EditorInfo#IME_FLAG_NAVIGATE_NEXT}. &ndash;&gt;-->
+        <!--            <flag name="flagNavigateNext" value="0x8000000" />-->
+        <!--            &lt;!&ndash; Used to specify that the IME does not need-->
+        <!--                 to show its extracted text UI.  For input methods that may be fullscreen,-->
+        <!--                 often when in landscape mode, this allows them to be smaller and let part-->
+        <!--                 of the application be shown behind.  Though there will likely be limited-->
+        <!--                 access to the application available from the user, it can make the-->
+        <!--                 experience of a (mostly) fullscreen IME less jarring.  Note that when-->
+        <!--                 this flag is specified the IME may <em>not</em> be set up to be able-->
+        <!--                 to display text, so it should only be used in situations where this is-->
+        <!--                 not needed.-->
+        <!--                 <p>Corresponds to-->
+        <!--                 {@link android.view.inputmethod.EditorInfo#IME_FLAG_NO_EXTRACT_UI}. &ndash;&gt;-->
+        <!--            <flag name="flagNoExtractUi" value="0x10000000" />-->
+        <!--            &lt;!&ndash; Used in conjunction with a custom action, this indicates that the-->
+        <!--                 action should not be available as an accessory button when the-->
+        <!--                 input method is full-screen.-->
+        <!--                 Note that by setting this flag, there can be cases where the action-->
+        <!--                 is simply never available to the user.  Setting this generally means-->
+        <!--                 that you think showing text being edited is more important than the-->
+        <!--                 action you have supplied.-->
+        <!--                 <p>Corresponds to-->
+        <!--                 {@link android.view.inputmethod.EditorInfo#IME_FLAG_NO_ACCESSORY_ACTION}. &ndash;&gt;-->
+        <!--            <flag name="flagNoAccessoryAction" value="0x20000000" />-->
+        <!--            &lt;!&ndash; Used in conjunction with a custom action,-->
+        <!--                 this indicates that the action should not be available in-line as-->
+        <!--                 a replacement for the "enter" key.  Typically this is-->
+        <!--                 because the action has such a significant impact or is not recoverable-->
+        <!--                 enough that accidentally hitting it should be avoided, such as sending-->
+        <!--                 a message.    Note that {@link android.widget.TextView} will-->
+        <!--                 automatically set this flag for you on multi-line text views.-->
+        <!--                 <p>Corresponds to-->
+        <!--                 {@link android.view.inputmethod.EditorInfo#IME_FLAG_NO_ENTER_ACTION}. &ndash;&gt;-->
+        <!--            <flag name="flagNoEnterAction" value="0x40000000" />-->
+        <!--            &lt;!&ndash; Used to request that the IME should be capable of inputting ASCII-->
+        <!--                 characters.  The intention of this flag is to ensure that the user-->
+        <!--                 can type Roman alphabet characters in a {@link android.widget.TextView}-->
+        <!--                 used for, typically, account ID or password input.  It is expected that IMEs-->
+        <!--                 normally are able to input ASCII even without being told so (such IMEs-->
+        <!--                 already respect this flag in a sense), but there could be some cases they-->
+        <!--                 aren't when, for instance, only non-ASCII input languages like Arabic,-->
+        <!--                 Greek, Hebrew, Russian are enabled in the IME.  Applications need to be-->
+        <!--                 aware that the flag is not a guarantee, and not all IMEs will respect it.-->
+        <!--                 However, it is strongly recommended for IME authors to respect this flag-->
+        <!--                 especially when their IME could end up with a state that has only non-ASCII-->
+        <!--                 input languages enabled.-->
+        <!--                 <p>Corresponds to-->
+        <!--                 {@link android.view.inputmethod.EditorInfo#IME_FLAG_FORCE_ASCII}. &ndash;&gt;-->
+        <!--            <flag name="flagForceAscii" value="0x80000000" />-->
+        <!--        </attr>-->
+
+    </declare-styleable>
+
+    <declare-styleable name="CircleImageView">
+        <attr name="civ_border_width" format="dimension" />
+        <attr name="civ_border_color" format="color" />
+        <attr name="civ_border_overlay" format="boolean" />
+        <!-- {@deprecated Use civ_circlebackground_color instead.} -->
+        <attr name="civ_fill_color" format="color" />
+        <attr name="civ_circle_background_color" format="color" />
+    </declare-styleable>
+</resources>

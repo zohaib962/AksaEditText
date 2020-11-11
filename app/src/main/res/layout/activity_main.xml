@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+
+    <com.example.aksaedittext.AksaEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:imeOptions="actionNext"
+        android:inputType="number"
+        app:ed_color="@color/black"
+        app:ed_drawable_padding="10dp"
+        app:ed_drawable_start="@drawable/ic_eye"
+        app:ed_hint_color="#000000"
+        app:ed_hint_txt="Enter number"
+        app:ed_maxLenght="11"
+        app:ed_text_size="14sp"
+        app:ed_txt="@={agentToAgentWallet.model.walletID}"
+        app:ed_txt_style="bold"
+        app:hint_label_drawable_left="@drawable/ic_eye"
+        app:hint_label_drawable_padding="5dp"
+        app:hint_label_size="12sp"
+        app:hint_label_style="bold"
+        app:hint_label_txt="label"
+        app:hint_lable_color="#000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

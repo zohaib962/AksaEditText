@@ -1,0 +1,3 @@
+include ':AksaEditText'
+include ':app'
+rootProject.name = "Custom Aksa Edittext"
