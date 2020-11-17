@@ -1,0 +1,508 @@
+package com.example.aksaedittext;
+
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
+import android.graphics.Canvas;
+import android.graphics.Rect;
+import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.text.Editable;
+import android.text.InputFilter;
+import android.text.InputType;
+import android.text.TextWatcher;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
+import android.util.AttributeSet;
+import android.util.Log;
+import android.util.TypedValue;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.appcompat.widget.AppCompatEditText;
+import androidx.core.content.ContextCompat;
+import androidx.databinding.BindingAdapter;
+import androidx.databinding.InverseBindingAdapter;
+import androidx.databinding.InverseBindingListener;
+
+import java.util.Objects;
+
+public class AksaEditTextCnic extends RelativeLayout {
+
+
+    public static final int DRAWABLE_LEFT = 0;
+    public static final int DRAWABLE_TOP = 1;
+    public static final int DRAWABLE_RIGHT = 2;
+    public static final int DRAWABLE_BOTTOM = 3;
+
+
+    LayoutInflater mInflater;
+    TextView hintLbl;
+    AppCompatEditText aksaEdtext;
+    View divder;
+    TextView tvErrorMessage;
+    TextView tvMandatory;
+    TypedArray typedArray;
+    Resources resources;
+    int actionX, actionY;
+    public OtpCompleteListener otpCompleteListener;
+    boolean mDownTouch = false, ed_Enabled = true, ed_IsMandatory = false;
+    private int hintLabelColor, mandatoryTextColor, hintLableSize, edTextColor, edTextSize, edHintColor, hintDrawbleLeftInt,
+            edDrawbleleftInt, edDrawableRightInt, hintDrawablePadding, edDrawablePadding, hintlblStyle, edTextStye, edMaxLenght,
+            edInputType, edImoOption;
+    private Drawable hintDrawableLeft, edDrawableLeft, edDrawableRight, drawableBottom, drawableTop;
+    private String hintTxt = "", edHintTxt = "", edTxt = "", edFont, hintFont, edDigitsOnly;
+
+
+    private boolean toggleDrawableRight;
+    private DrawableClickListener clickListener;
+
+
+    public AksaEditTextCnic(Context context) {
+        super(context);
+        mInflater = LayoutInflater.from(context);
+        initViews();
+
+    }
+
+    public AksaEditTextCnic(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        mInflater = LayoutInflater.from(context);
+        parseAttributes(attrs);
+        initViews();
+
+    }
+
+    public AksaEditTextCnic(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        mInflater = LayoutInflater.from(context);
+        parseAttributes(attrs);
+        initViews();
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public AksaEditTextCnic(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
+        mInflater = LayoutInflater.from(context);
+        parseAttributes(attrs);
+        initViews();
+
+    }
+
+    @InverseBindingAdapter(attribute = "ed_txt")
+    public static String getEdTxt(AksaEditTextCnic view) {
+        return view.edTxt;
+    }
+
+    @BindingAdapter("ed_txt")
+    public static void setEdTxt(AksaEditTextCnic view, String edTxt) {
+        view.edTxt = edTxt;
+    }
+
+    @BindingAdapter(value = "ed_txtAttrChanged")
+    public static void setListener(AksaEditTextCnic editText, final InverseBindingListener listener) {
+        if (listener != null) {
+            editText.aksaEdtext.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                    if (editText.tvErrorMessage.getVisibility() == VISIBLE) {
+                        editText.tvErrorMessage.setText(null);
+                        editText.tvErrorMessage.setVisibility(GONE);
+                    }
+
+                    String cnicText = editText.aksaEdtext.getText().toString();
+
+                    int pos1 = 5, pos2 = 13;
+
+                    if (editText.aksaEdtext.length() <= pos1) {
+                        editText.edTxt = charSequence.toString().replace("-", "");
+                        return;
+
+                    } else if (editText.aksaEdtext.length() > pos1 && editText.aksaEdtext.length() <= pos2) {
+
+                        if (cnicText.charAt(pos1) == '-') {
+                            return;
+                        }
+
+                    } else if (editText.aksaEdtext.length() > pos2) {
+
+                        if (cnicText.charAt(pos1) == '-' && cnicText.charAt(pos2) == '-') {
+                            editText.edTxt = charSequence.toString().replace("-", "");
+                            return;
+                        }
+                    }
+
+                    StringBuilder sb = new StringBuilder(cnicText.replace("-", ""));
+
+                    if (sb.length() > pos1 && sb.length() < pos2) {
+
+                        sb.insert(pos1, "-");
+                    } else if (sb.length() >= pos2) {
+
+                        sb.insert(pos1, "-");
+                        sb.insert(pos2, "-");
+                    }
+
+                    int selection = start + count;
+
+                    if (sb.length() == (pos1 + 2) && selection == (pos1 + 1) || sb.length() == (pos2 + 2) && selection == (pos2 + 1)) {
+                        selection++;
+                    }
+                    editText.aksaEdtext.setText(sb.toString());
+                    editText.aksaEdtext.setSelection(selection);
+                    editText.edTxt = charSequence.toString().replace("-", "");
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                    listener.onChange();
+                }
+            });
+        }
+    }
+
+    private void parseAttributes(AttributeSet attrs) {
+        typedArray = getContext().obtainStyledAttributes(attrs,
+                R.styleable.AksaEditText, 0, 0);
+        resources = getContext().getResources();
+        try {
+            hintTxt = typedArray.getString(R.styleable.AksaEditText_hint_label_txt);
+            edHintTxt = typedArray.getString(R.styleable.AksaEditText_ed_hint_txt);
+            edTxt = typedArray.getString(R.styleable.AksaEditText_ed_txt);
+            hintLabelColor = typedArray.getColor(R.styleable.AksaEditText_hint_lable_color, resources.getColor(R.color.zong_green));
+            edHintColor = typedArray.getColor(R.styleable.AksaEditText_ed_hint_color, resources.getColor(R.color.primaryText));
+            edTextColor = typedArray.getColor(R.styleable.AksaEditText_ed_color, resources.getColor(R.color.primaryText));
+            hintLableSize = typedArray.getDimensionPixelSize(R.styleable.AksaEditText_hint_label_size, 14);
+            edTextSize = typedArray.getDimensionPixelSize(R.styleable.AksaEditText_ed_text_size, 14);
+            edFont = typedArray.getString(R.styleable.AksaEditText_ed_font_family);
+            hintFont = typedArray.getString(R.styleable.AksaEditText_hint_label_font_faimly);
+            hintDrawbleLeftInt = typedArray.getResourceId(R.styleable.AksaEditText_hint_label_drawable_left, 0);
+            edDrawbleleftInt = typedArray.getResourceId(R.styleable.AksaEditText_ed_drawable_start, 0);
+            edDrawableRightInt = typedArray.getResourceId(R.styleable.AksaEditText_ed_drawable_end, 0);
+            hintDrawablePadding = typedArray.getDimensionPixelSize(R.styleable.AksaEditText_hint_label_drawable_padding, 0);
+            edDrawablePadding = typedArray.getDimensionPixelSize(R.styleable.AksaEditText_ed_drawable_padding, 0);
+            hintlblStyle = typedArray.getInteger(R.styleable.AksaEditText_hint_label_style, 0);
+            edTextStye = typedArray.getInteger(R.styleable.AksaEditText_ed_txt_style, 25);
+            edMaxLenght = typedArray.getInteger(R.styleable.AksaEditText_ed_maxLenght, 0);
+            edDigitsOnly = typedArray.getString(R.styleable.AksaEditText_ed_digits);
+            edInputType = typedArray.getInt(R.styleable.AksaEditText_android_inputType, EditorInfo.TYPE_TEXT_VARIATION_NORMAL);
+            ed_Enabled = typedArray.getBoolean(R.styleable.AksaEditText_ed_enable, true);
+            ed_IsMandatory = typedArray.getBoolean(R.styleable.AksaEditText_ed_is_mandatory, false);
+            mandatoryTextColor = typedArray.getColor(R.styleable.AksaEditText_ed_mandatory_text_color, -1);
+            edImoOption = typedArray.getInt(R.styleable.AksaEditText_android_imeOptions, 0);
+        } catch (Exception e) {
+            Log.e("ex", "Exception in custom editTxt");
+
+        } finally {
+            typedArray.recycle();
+        }
+    }
+
+    private void initViews() {
+        View v = mInflater.inflate(R.layout.custom_akas_textview, this, true);
+        hintLbl = v.findViewById(R.id.hint_lbl);
+        aksaEdtext = v.findViewById(R.id.custom_ed);
+        tvErrorMessage = v.findViewById(R.id.tv_error_message);
+        tvMandatory = v.findViewById(R.id.mandatory_textView);
+        divder = v.findViewById(R.id.div);
+        bindViews();
+    }
+
+    //    @SuppressLint("ClickableViewAccessibility")
+    @SuppressLint("ClickableViewAccessibility")
+    private void bindViews() {
+        try {
+            aksaEdtext.setBackgroundResource(android.R.color.transparent);
+            hintLbl.setText(hintTxt);
+            if (hintLabelColor != 0)
+                hintLbl.setTextColor(hintLabelColor);
+            else
+                hintLbl.setTextColor(getContext().getResources().getColor(R.color.secondaryText));
+            if (hintLableSize != 0)
+                hintLbl.setTextSize(TypedValue.COMPLEX_UNIT_PX, hintLableSize);
+            if (hintFont != null)
+                hintLbl.setTypeface(hintlblStyle == 0 ? Typeface.createFromAsset(getContext().getAssets(), "font/" + hintFont) :
+                        Typeface.createFromAsset(getContext().getAssets(), "font/" + hintFont), hintlblStyle);
+
+            if (hintDrawbleLeftInt != 0) {
+                hintDrawableLeft = ContextCompat.getDrawable(getContext(), hintDrawbleLeftInt);
+                hintLbl.setCompoundDrawablesRelativeWithIntrinsicBounds(hintDrawableLeft, null, null, null);
+            }
+
+            if (hintDrawablePadding != 0)
+                hintLbl.setCompoundDrawablePadding(hintDrawablePadding);
+            if (edHintTxt != null && !edHintTxt.isEmpty())
+                aksaEdtext.setHint(edHintTxt);
+            if (edTxt != null && !edTxt.isEmpty())
+                aksaEdtext.setText(edTxt);
+            if (edHintColor != 0)
+                aksaEdtext.setHintTextColor(edHintColor);
+            else
+                aksaEdtext.setHintTextColor(getContext().getResources().getColor(R.color.secondaryText));
+            if (edTextColor != 0)
+                aksaEdtext.setTextColor(getContext().getResources().getColor(R.color.black));
+            else
+                aksaEdtext.setTextColor(edTextColor);
+            if (edTextSize != 0)
+                aksaEdtext.setTextSize(TypedValue.COMPLEX_UNIT_PX, edTextSize);
+            if (edFont != null)
+                aksaEdtext.setTypeface(edTextStye == 0 ? Typeface.createFromAsset(getContext().getAssets(), "font/" + edFont) :
+                        Typeface.createFromAsset(getContext().getAssets(), "font/" + edFont), edTextStye);
+            if (edDrawbleleftInt != 0) {
+                edDrawableLeft = AppCompatResources.getDrawable(getContext(), edDrawbleleftInt);
+            }
+            if (edDrawableRightInt != 0) {
+                edDrawableRight = AppCompatResources.getDrawable(getContext(), edDrawableRightInt);
+            }
+
+            aksaEdtext.setCompoundDrawablesRelativeWithIntrinsicBounds(edDrawbleleftInt == 0 ? null : edDrawableLeft, null, edDrawableRightInt == 0 ? null : edDrawableRight, null);
+
+            if (edDrawablePadding != 0)
+                aksaEdtext.setCompoundDrawablePadding(edDrawablePadding);
+
+            if (edMaxLenght != 0)
+                aksaEdtext.setFilters(new InputFilter[]{new InputFilter.LengthFilter(edMaxLenght)});
+            if (edInputType != EditorInfo.TYPE_NULL) {
+                aksaEdtext.setInputType(edInputType);
+            } else {
+                aksaEdtext.setInputType(InputType.TYPE_CLASS_TEXT);
+            }
+
+            if (edImoOption != 0) {
+                aksaEdtext.setImeOptions(edImoOption);
+            } else {
+//                aksaEdtext.setImeOptions(EditorInfo.IME_ACTION_DONE);
+            }
+
+
+            if (edDigitsOnly != null) {
+                aksaEdtext.setKeyListener(new CustomDigitsKeyListener(edDigitsOnly.toCharArray(), edInputType));
+            }
+
+            if (ed_IsMandatory) {
+                tvMandatory.setVisibility(VISIBLE);
+                if (mandatoryTextColor != -1) {
+                    tvMandatory.setTextColor(mandatoryTextColor);
+                }
+            } else {
+                tvMandatory.setVisibility(GONE);
+            }
+            if (!ed_Enabled) {
+                // if false comes from xml then disable edittext
+                aksaEdtext.setEnabled(!ed_Enabled);
+//                aksaEdtext.setTextColor(resources.getColor(R.color.disableTextColor));
+                aksaEdtext.setTextColor(resources.getColor(R.color.secondaryText));
+                aksaEdtext.setClickable(ed_Enabled);
+                aksaEdtext.setAlpha(0.5f);
+                aksaEdtext.setFocusable(ed_Enabled);
+                aksaEdtext.setOnTouchListener((view, motionEvent) -> {
+                    if (motionEvent.getAction() == MotionEvent.ACTION_UP && clickListener != null)
+                        clickListener.onClick(this);
+                    return false;
+                });
+
+
+            }
+
+
+
+        } catch (Exception e) {
+            Log.e("ex", "customView : Binding exception");
+        }
+
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    public void addDrawableClickListener(int drawable, DrawableClickListener listener) {
+        this.clickListener = listener;
+        aksaEdtext.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                if (event.getRawX() >= (aksaEdtext.getRight() - aksaEdtext.getCompoundDrawables()[drawable].getBounds().width())) {
+                    clickListener.onClick(this);
+                    return true;
+                }
+            }
+            return false;
+        });
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public String getCNICText() {
+        return Objects.requireNonNull(aksaEdtext.getText()).toString().replaceAll("-", "");
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public String getText() {
+
+        return Objects.requireNonNull(aksaEdtext.getText()).toString();
+    }
+
+    public void setText(String text) {
+
+
+        aksaEdtext.setText(text);
+        aksaEdtext.invalidate();
+        aksaEdtext.requestLayout();
+    }
+
+    public void setTextColor(int color) {
+
+        aksaEdtext.setTextColor(color);
+        aksaEdtext.invalidate();
+        aksaEdtext.requestLayout();
+    }
+
+    public void setCNICText(String text) {
+        String p1 = text.substring(0, 5) + "-";
+        String p2 = text.substring(5, 12) + "-";
+        String p3 = text.substring(12, 13);
+        aksaEdtext.setText(p1 + p2 + p3);
+        aksaEdtext.invalidate();
+        aksaEdtext.requestLayout();
+    }
+
+    public int getLenght() {
+        return aksaEdtext.length();
+    }
+
+    public void setError(String error) {
+        if (error != null) {
+            getFocusOnView(this.aksaEdtext);
+            this.aksaEdtext.requestFocus();
+            aksaEdtext.requestFocus();
+            tvErrorMessage.setVisibility(VISIBLE);
+            tvErrorMessage.setText(error);
+
+        } else {
+            aksaEdtext.clearFocus();
+            tvErrorMessage.setVisibility(GONE);
+            tvErrorMessage.setText(null);
+        }
+
+    }
+
+    public boolean isEd_Enabled() {
+        return aksaEdtext.isEnabled();
+    }
+
+    public void setEdEnabled(boolean isEnabled) {
+        aksaEdtext.setEnabled(isEnabled);
+    }
+
+    public void setLabel(String labelText) {
+        this.hintTxt = labelText;
+        hintLbl.setText(hintTxt);
+    }
+
+    public void setEd_Enabled(boolean isEnabled) {
+        this.ed_Enabled = isEnabled;
+    }
+
+    public void setMaxLength(int length) {
+        edMaxLenght = length;
+        if (edMaxLenght > 0)
+            aksaEdtext.setFilters(new InputFilter[]{new InputFilter.LengthFilter(edMaxLenght)});
+    }
+
+    public void sethint(String hintText) {
+        this.edHintTxt = hintText;
+        aksaEdtext.setHint(edHintTxt);
+    }
+
+    public void setEdText(String text, int color) {
+        this.edTxt = text;
+        aksaEdtext.setText(text);
+        aksaEdtext.setTextColor(color);
+    }
+
+    public boolean isEmpty() {
+        return aksaEdtext.toString().isEmpty();
+    }
+
+    public boolean isEnable() {
+        return aksaEdtext.isEnabled();
+    }
+
+    public void setEnable(boolean enable) {
+        aksaEdtext.setEnabled(enable);
+    }
+
+    public void toggleDrawableRight() {
+        if (!toggleDrawableRight) {
+            toggleDrawableRight = true;
+            edDrawableRightInt = R.drawable.ic_hide;
+            aksaEdtext.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+            aksaEdtext.setSelection(Objects.requireNonNull(aksaEdtext.getText()).length());
+            edDrawableRight = AppCompatResources.getDrawable(getContext(), edDrawableRightInt);
+        } else {
+            toggleDrawableRight = false;
+            edDrawableRightInt = R.drawable.ic_eye;
+            aksaEdtext.setTransformationMethod(new PasswordTransformationMethod());
+            aksaEdtext.setSelection(Objects.requireNonNull(aksaEdtext.getText()).length());
+            edDrawableRight = AppCompatResources.getDrawable(getContext(), edDrawableRightInt);
+        }
+        aksaEdtext.setCompoundDrawablesRelativeWithIntrinsicBounds(edDrawbleleftInt == 0 ? null : edDrawableLeft, null, edDrawableRightInt == 0 ? null : edDrawableRight, null);
+
+    }
+
+    public void setDrawableClickListener(DrawableClickListener listener) {
+        this.clickListener = listener;
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        edDrawableRight = null;
+        drawableBottom = null;
+        edDrawableLeft = null;
+        drawableTop = null;
+        super.finalize();
+    }
+
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+
+        invalidate();
+        requestLayout();
+
+    }
+
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+    }
+
+    public interface DrawableClickListener {
+
+        void onClick(AksaEditTextCnic target);
+
+        enum DrawablePosition {TOP, BOTTOM, LEFT, RIGHT}
+    }
+
+    private void getFocusOnView(View view) {
+        int margintop = -40;
+        Rect rect = new Rect(0, margintop, view.getWidth(), view.getHeight());
+        view.requestRectangleOnScreen(rect, false);
+    }
+
+    public void setOtpCompleteListener(OtpCompleteListener otpCompleteListener) {
+        this.otpCompleteListener = otpCompleteListener;
+    }
+
+    public interface OtpCompleteListener {
+        void onOtpCompleteListener(String otp);
+    }
+}

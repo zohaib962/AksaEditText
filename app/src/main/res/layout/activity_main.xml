@@ -1,35 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="mymodel"
+            type="com.example.customaksaedittext.DummyModel" />
+
+
+    </data>
+
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
 
-    <com.example.aksaedittext.AksaEditText
+    <com.example.aksaedittext.AksaEditTextCnic
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:imeOptions="actionNext"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="24dp"
         android:inputType="number"
-        app:ed_color="@color/black"
-        app:ed_drawable_padding="10dp"
+        app:ed_drawable_padding="5dp"
         app:ed_drawable_start="@drawable/ic_eye"
-        app:ed_hint_color="#000000"
-        app:ed_hint_txt="Enter number"
-        app:ed_maxLenght="11"
-        app:ed_text_size="14sp"
-        app:ed_txt="@={agentToAgentWallet.model.walletID}"
+        app:ed_hint_color="@color/secondaryText"
+        app:ed_hint_txt="61101-6971799-1"
+        app:ed_maxLenght="15"
+        app:ed_text_size="12sp"
+        app:ed_txt="@={mymodel.password}"
         app:ed_txt_style="bold"
         app:hint_label_drawable_left="@drawable/ic_eye"
         app:hint_label_drawable_padding="5dp"
-        app:hint_label_size="12sp"
+        app:hint_label_size="10sp"
         app:hint_label_style="bold"
-        app:hint_label_txt="label"
-        app:hint_lable_color="#000000"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:ed_is_mandatory="true"
+        app:ed_mandatory_text_color="@color/black"
+        app:hint_label_txt="Cnic"
+        app:hint_lable_color="@color/black"
         app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
